@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://btjhynr1s35g7"]
+
+[ext_resource type="Script" path="res://Maps/Shared Map Assets/Decorations/building.gd" id="1_e4pjv"]
+[ext_resource type="Texture2D" uid="uid://bnvubsoeqbh0l" path="res://Maps/Shared Map Assets/Decorations/treehouse.png" id="2_dyyov"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uxbtl"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ja1gl"]
+size = Vector2(64, 32)
+
+[node name="Building_0;0;0" type="Area2D"]
+scale = Vector2(2, 2)
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_e4pjv")
+
+[node name="Door" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_uxbtl")
+
+[node name="Sprite2D" type="Sprite2D" parent="Door"]
+y_sort_enabled = true
+texture = ExtResource("2_dyyov")
+offset = Vector2(0, -130)
+
+[node name="Body" type="StaticBody2D" parent="Door/Sprite2D"]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door/Sprite2D/Body"]
+shape = SubResource("RectangleShape2D_ja1gl")
+metadata/_edit_lock_ = true

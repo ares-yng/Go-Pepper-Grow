@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://cj3ekaoq3cme0"]
+
+[ext_resource type="Texture2D" uid="uid://8pkm5fhihfnt" path="res://Characters/NPCs/npc_1/haybale.png" id="1_ptec1"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ptec1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

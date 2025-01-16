@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://pqif3ma4lrx2"]
+
+[ext_resource type="Texture2D" uid="uid://ct2nbpwqrpdcs" path="res://Maps/Shared Map Assets/Storage/Storage Assets/crate.png" id="1_x7m12"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_x7m12")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
