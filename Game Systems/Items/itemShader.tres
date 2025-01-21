@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dmfj6yfgifkon"]
+
+[ext_resource type="Shader" path="res://Game Systems/Items/flash.gdshader" id="1_o0laj"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_o0laj")
+shader_parameter/flashModifier = 0.0

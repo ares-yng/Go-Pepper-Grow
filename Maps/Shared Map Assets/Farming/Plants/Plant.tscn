@@ -21,5 +21,6 @@ visible = false
 texture = ExtResource("2_eq6jv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
 hframes = 2
 metadata/_edit_lock_ = true

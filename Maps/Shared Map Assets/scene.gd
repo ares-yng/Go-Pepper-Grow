@@ -3,6 +3,7 @@ extends Node2D
 #@onready var dialogue = preload("res://Scenes/dialogue_resource.gd").new()
 
 var scene_id
+@export var playerOffset : Vector2 = Vector2(0, 16)
 
 @onready var FarmlandTileNode = $FarmlandTile
 @onready var FloorGridNode = $FloorGrid
@@ -40,7 +41,9 @@ func getStorageIDs(): #returns an array of storage ids
 		ids += [storage.getID()]
 	return ids
 func getPlayerSpawnLocation(index = 0):
-	return PortalsNode.get_child(index).get_global_position()
+	var portalLocation = PortalsNode.get_child(index).get_global_position()
+	var playerSpawnLocation = portalLocation + playerOffset
+	return playerSpawnLocation
 func getSceneData():
 	var sceneData = getPackedChildrenData(FarmlandTileNode, farmlandParameters)
 	sceneData.merge(FloorGridNode.getData(floorGridParameters))

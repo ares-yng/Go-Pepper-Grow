@@ -2,12 +2,28 @@ extends Area2D
 
 var itemData
 
+@onready var sparkleParticles = $Sprite2D/GPUParticles2D
+
 func pickup():
 	return getData()
 func useItem(quantity):
 	setQuantity(getQuantity()-quantity)
 	if getQuantity() < 1:
 		return true
+
+func stopDroppedAnimation():
+	unsparkle()
+func playDroppedAnimation():
+	sparkle()
+func sparkle():
+	sparkleParticles.emitting = true
+func unsparkle():
+	sparkleParticles.emitting = false
+func flash():
+	$Sprite2D.material.set("shader_parameter/flashModifier", 1)
+	$Sprite2D/FlashTimer.start()
+func _on_flash_timer_timeout():
+	$Sprite2D.material.set("shader_parameter/flashModifier", 0)
 
 func setQuantity(quantity):
 	var quantityNode = $Quantity

@@ -45,6 +45,7 @@ func putItem(item, pos): #returns true if item was put
 			add_child(item)
 			itemsOnFloor.append(item)
 			occupiedTiles.append(tilePos)
+			item.playDroppedAnimation()
 			return true
 	else:
 		print("not on grid")

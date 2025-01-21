@@ -42,11 +42,13 @@ func putItem(item):
 		#find the first available spot to put the item away. check hotbar first
 		var space = getSpace(hotbarSlotNodes, item.getItemID(), item.getStackMax(), item.getQuantity())
 		if space != null:
+			item.stopDroppedAnimation()
 			item = hotbarSlotNodes[space].putItem(item)
 		else:
 			space = getSpace(slotNodes, item.getItemID(), item.getStackMax(), item.getQuantity())
 			#if there is no space, give the item back
 			if space != null:
+				item.stopDroppedAnimation()
 				item = slotNodes[space].putItem(item)
 			else:
 				return item

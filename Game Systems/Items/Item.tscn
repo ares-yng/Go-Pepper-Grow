@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgi6l5tl3cd8x"]
+[gd_scene load_steps=6 format=3 uid="uid://dgi6l5tl3cd8x"]
 
 [ext_resource type="Script" path="res://Game Systems/Items/item.gd" id="1_c76pk"]
+[ext_resource type="Material" uid="uid://dmfj6yfgifkon" path="res://Game Systems/Items/itemShader.tres" id="2_spf8n"]
+[ext_resource type="Material" uid="uid://cs4p3oxbci0il" path="res://Game Systems/Items/sparkleParticles.tres" id="3_xngtg"]
+[ext_resource type="Texture2D" uid="uid://bkm26noym5gpu" path="res://Game Systems/Items/sparkle.png" id="4_oscfi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hxk77"]
 size = Vector2(32, 32)
@@ -14,7 +17,20 @@ script = ExtResource("1_c76pk")
 shape = SubResource("RectangleShape2D_hxk77")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("2_spf8n")
 scale = Vector2(2, 2)
+
+[node name="FlashTimer" type="Timer" parent="Sprite2D"]
+wait_time = 0.15
+one_shot = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D"]
+emitting = false
+amount = 3
+process_material = ExtResource("3_xngtg")
+texture = ExtResource("4_oscfi")
+lifetime = 6.0
+explosiveness = 0.9
 
 [node name="Quantity" type="Label" parent="."]
 offset_left = -12.0
@@ -24,3 +40,5 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 text = "0"
 vertical_alignment = 1
+
+[connection signal="timeout" from="Sprite2D/FlashTimer" to="." method="_on_flash_timer_timeout"]
