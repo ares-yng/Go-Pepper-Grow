@@ -109,6 +109,7 @@ y_sort_enabled = true
 script = ExtResource("1_nt7i8")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Controls" type="Label" parent="CanvasLayer"]
 offset_right = 772.0
@@ -201,6 +202,6 @@ y_sort_enabled = true
 script = ExtResource("14_8sh2u")
 
 [node name="Storage_0" parent="Storages" instance=ExtResource("15_b0k0d")]
-position = Vector2(464, 624)
+position = Vector2(528, 592)
 
 [editable path="Portals/Portal_2;0"]

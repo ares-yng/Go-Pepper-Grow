@@ -8,16 +8,19 @@ var data = {}
 #@onready var closeButton = $Tab
 var isOpen = false
 var slotNodes = []
+@onready var storageBG = $Sprite2D
 @onready var slotsNode = $Slots
 
 func tryToTalk():
 	doStorage()
 func doStorage(): #opens or closes
 	if isOpen:
+		storageBG.set_visible(false)
 		slotsNode.set_visible(false)
 		slotsNode.process_mode = Node.PROCESS_MODE_DISABLED
 		isOpen = false
 	else:
+		storageBG.set_visible(true)
 		slotsNode.set_visible(true)
 		slotsNode.process_mode = Node.PROCESS_MODE_INHERIT
 		isOpen = true

@@ -44,6 +44,7 @@ var playerDirection = "Down"
 @onready var stats = $Stats
 @onready var hand = $HandEquip
 @onready var handAnimPlayer = $HandEquip.get_child(0).get_child(0)
+@onready var handParticle = $HandEquip.get_child(0).get_child(1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -209,6 +210,8 @@ func _process(delta):
 			inputsSystemNode.startInputs(isCharging["function"], self, isCharging["chargeActionID"])
 		else:
 			reachNode.checkTileForDownAction(playerDirection, true)
+			if controlsLabelNodes["Down"].text == "Water":
+				handParticle.restart()
 		isCharging["useReleased"] = true
 	else:
 		controlsLabelNodes["Up"].text = reachNode.checkTileForUpAction(playerDirection)

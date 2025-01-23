@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://h7nk0pk6kuh5"]
+[gd_scene load_steps=21 format=3 uid="uid://h7nk0pk6kuh5"]
 
-[ext_resource type="SpriteFrames" uid="uid://bm18ebc60rv4q" path="res://Characters/Player/Equipment System/Equipment/stick.tres" id="1_dwq30"]
+[ext_resource type="SpriteFrames" uid="uid://bhsi7pqcjwq7p" path="res://Characters/Player/Equipment System/Equipment/wateringCan.tres" id="1_eksuq"]
 [ext_resource type="SpriteFrames" uid="uid://biw0q4p5cogoi" path="res://Characters/Player/Appearance/pepper.tres" id="1_elheu"]
+[ext_resource type="Texture2D" uid="uid://cliqomk8s78dy" path="res://Characters/Player/Equipment System/Equipment/waterDrop.png" id="2_jsp35"]
 [ext_resource type="PackedScene" uid="uid://dclbumfrgc4s4" path="res://Characters/Player/Equipment System/slash_hitbox.tscn" id="2_y2l63"]
 
 [sub_resource type="Animation" id="Animation_vlpvd"]
@@ -663,6 +664,9 @@ tracks/2/keys = {
 "values": [Vector2(-2, -4), Vector2(0, 0), Vector2(-2, 0), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_26638"]
+resource_name = "water"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m1nlq"]
 _data = {
 "RESET": SubResource("Animation_vlpvd"),
@@ -677,14 +681,22 @@ _data = {
 "walkDown": SubResource("Animation_uf5jo"),
 "walkLeft": SubResource("Animation_kdkl5"),
 "walkRight": SubResource("Animation_0amu2"),
-"walkUp": SubResource("Animation_j3khh")
+"walkUp": SubResource("Animation_j3khh"),
+"water": SubResource("Animation_26638")
 }
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i3nqi"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 98, 0)
 
 [node name="HandEquip" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -33)
-sprite_frames = ExtResource("1_dwq30")
+sprite_frames = ExtResource("1_eksuq")
 animation = &"idleU"
 offset = Vector2(0, -44)
 
@@ -693,6 +705,18 @@ libraries = {
 "": SubResource("AnimationLibrary_m1nlq")
 }
 autoplay = "idleDown"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
+visible = false
+position = Vector2(0, -12)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_i3nqi")
+texture = ExtResource("2_jsp35")
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.52
+randomness = 0.29
 
 [node name="Hitboxes" parent="." instance=ExtResource("2_y2l63")]
 
