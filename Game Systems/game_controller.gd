@@ -163,7 +163,8 @@ func advance(): #advances to the next day
 	#reload scene
 	currentSceneNode = openScene(currentSceneNode.scene_id, PlayerNode.global_position, false)
 	day += 1
-	$Pausable/CanvasLayer/Clock/Date.text = str("Day", day)
+	$Pausable/CanvasLayer/Clock/Date/Day.text = str(day)
+	$Pausable/CanvasLayer/Clock.setTime("spring")
 
 #Game Managing
 func setupNewPlayer(new_player_id):
