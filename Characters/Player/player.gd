@@ -9,7 +9,7 @@ var playerName
 var currentSpecialDialogueCheckpoint #updated by the game controller when conditions are met
 var keybinds = {"harvest_pickup_enter": "ui_up", "use": "ui_down", "click_move": "LMB", "inventory": "shift", "talk": "RMB", "dialogue": "ui_right",
 				"hotkey1": "hotkey1", "hotkey2": "hotkey2", "hotkey3": "hotkey3", "hotkey4": "hotkey4", "hotkey5": "hotkey5", 
-				"save": "o", "load": "p", "testbutton1": "testbutton1", "testbutton2": "testbutton2", "testbutton3": "testbutton3"}
+				"testbutton1": "testbutton1", "testbutton2": "testbutton2", "testbutton3": "testbutton3"}
 var isTouchingQuestRequirements = false
 
 #systems
@@ -44,6 +44,7 @@ var playerDirection = "Down"
 @onready var stats = $Stats
 @onready var hand = $HandEquip
 @onready var handAnimPlayer = $HandEquip.get_child(0).get_child(0)
+@onready var handParticle = $HandEquip.get_child(0).get_child(1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -209,6 +210,8 @@ func _process(delta):
 			inputsSystemNode.startInputs(isCharging["function"], self, isCharging["chargeActionID"])
 		else:
 			reachNode.checkTileForDownAction(playerDirection, true)
+			if controlsLabelNodes["Down"].text == "Water":
+				handParticle.restart()
 		isCharging["useReleased"] = true
 	else:
 		controlsLabelNodes["Up"].text = reachNode.checkTileForUpAction(playerDirection)
@@ -224,10 +227,6 @@ func _process(delta):
 			reachNode.checkTileForUpAction(playerDirection, inventoryNode, inputsSystemNode, true)
 		elif Input.is_action_just_released(keybinds["talk"]):
 			mouseClicked(4, get_global_mouse_position(), "tryToTalk")
-		elif Input.is_action_just_released(keybinds["save"]):
-			isRequestingSave = true
-		elif Input.is_action_just_released(keybinds["load"]):
-			isRequestingLoad = true
 		elif Input.is_action_just_released(keybinds["hotkey1"]):
 			hotbarNode.switchToSlot(0)
 		elif Input.is_action_just_released(keybinds["hotkey2"]):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d4nf13w6newcp"]
+[gd_scene load_steps=25 format=3 uid="uid://d4nf13w6newcp"]
 
 [ext_resource type="Script" path="res://Game Systems/game_controller.gd" id="1_2djny"]
 [ext_resource type="PackedScene" uid="uid://6qe7ujvd8sao" path="res://Maps/main_menu/main_menu.tscn" id="2_mhobl"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cqbk0dfq45ckf" path="res://Maps/main_menu/small_pepper2.png" id="11_awf2v"]
 [ext_resource type="Texture2D" uid="uid://4w0qjenls7bo" path="res://Maps/main_menu/small_pepper3.png" id="12_51y4d"]
 [ext_resource type="Texture2D" uid="uid://btp6rl3ibs1wi" path="res://Maps/main_menu/small_pepper4.png" id="13_n45dc"]
+[ext_resource type="Shader" path="res://Game Systems/sceneChange.gdshader" id="17_wrp67"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vc2v6"]
 
@@ -50,6 +51,65 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m5rbc"]
+shader = ExtResource("17_wrp67")
+shader_parameter/sceneChangeColor = Vector4(0, 0, 0, 1)
+shader_parameter/sceneChangeModifier = 0.0
+
+[sub_resource type="Animation" id="Animation_ugnfb"]
+resource_name = "screenFadeOut"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sceneChangeModifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_2o1kw"]
+resource_name = "screenFadeIn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sceneChangeModifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_blcju"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/sceneChangeModifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jfgws"]
+_data = {
+"RESET": SubResource("Animation_blcju"),
+"screenFadeIn": SubResource("Animation_2o1kw"),
+"screenFadeOut": SubResource("Animation_ugnfb")
+}
 
 [node name="GameController" type="Node2D"]
 process_mode = 3
@@ -407,6 +467,18 @@ text = "F2 to unpause"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ScreenCover" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_m5rbc")
+offset_right = 960.0
+offset_bottom = 544.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/ScreenCover"]
+libraries = {
+"": SubResource("AnimationLibrary_jfgws")
+}
+
 [node name="Pausable" type="Node2D" parent="."]
 process_mode = 1
 y_sort_enabled = true
@@ -472,7 +544,7 @@ text = "> D"
 
 [node name="Clock" type="Node2D" parent="Pausable/CanvasLayer"]
 visible = false
-position = Vector2(96, 464)
+position = Vector2(96, 459)
 script = ExtResource("9_phq5p")
 
 [node name="Time" type="Label" parent="Pausable/CanvasLayer/Clock"]
@@ -489,8 +561,25 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 16
+text = "6"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
+
+[node name="Date" type="Label" parent="Pausable/CanvasLayer/Clock"]
+offset_left = -20.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 19.0
+text = "Day "
+metadata/_edit_use_anchors_ = true
+
+[node name="Day" type="Label" parent="Pausable/CanvasLayer/Clock/Date"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 17.0
+text = "1"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="main_menu" parent="Pausable" instance=ExtResource("2_mhobl")]

@@ -1,32 +1,36 @@
-[gd_scene load_steps=5 format=3 uid="uid://cddatkpulnad8"]
+[gd_scene load_steps=6 format=3 uid="uid://cddatkpulnad8"]
 
 [ext_resource type="Script" path="res://Maps/Shared Map Assets/Storage/storage.gd" id="1_bmig4"]
 [ext_resource type="SpriteFrames" uid="uid://pqif3ma4lrx2" path="res://Maps/Shared Map Assets/Storage/Storage Assets/crate.tres" id="2_e17l5"]
+[ext_resource type="Texture2D" uid="uid://0uocxy68811v" path="res://Maps/Shared Map Assets/Storage/Storage Assets/storage_bg.png" id="2_iojqw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kx3y3"]
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hlxqr"]
-size = Vector2(16, 16)
+size = Vector2(16, 12)
 
 [node name="Storage_0" type="Area2D"]
 scale = Vector2(2, 2)
 collision_layer = 4
 script = ExtResource("1_bmig4")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -51.5)
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("2_iojqw")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -9)
 sprite_frames = ExtResource("2_e17l5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_kx3y3")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(0, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_hlxqr")
 
 [node name="Slots" type="Node2D" parent="."]
-position = Vector2(0, -9)

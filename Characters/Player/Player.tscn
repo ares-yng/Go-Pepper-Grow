@@ -438,19 +438,23 @@ script = ExtResource("1_887a6")
 script = ExtResource("2_c7n7l")
 
 [node name="Body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_2h1ne")
 
 [node name="LeftArmSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 12)
 sprite_frames = SubResource("SpriteFrames_5fyc5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LeftArmSprite"]
 
 [node name="RightArmSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 12)
 sprite_frames = SubResource("SpriteFrames_st28r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RightArmSprite"]
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 12)
 sprite_frames = ExtResource("3_tkm0b")
 animation = &"slash"
 offset = Vector2(0, -44)
@@ -462,9 +466,10 @@ libraries = {
 autoplay = "idleDown"
 
 [node name="HandEquip" parent="." instance=ExtResource("4_ln58r")]
+position = Vector2(0, 12)
 
 [node name="InputsSystem" type="Node2D" parent="."]
-position = Vector2(0, -72)
+position = Vector2(0, -60)
 script = ExtResource("5_oq1fn")
 
 [node name="InputsDisplay" type="HBoxContainer" parent="InputsSystem"]
@@ -581,6 +586,7 @@ vframes = 4
 metadata/_edit_lock_ = true
 
 [node name="Reach" type="Node2D" parent="."]
+position = Vector2(0, 12)
 script = ExtResource("9_xsctv")
 
 [node name="Left" type="Node2D" parent="Reach"]
@@ -791,6 +797,7 @@ hframes = 2
 shape = SubResource("RectangleShape2D_tjuys")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, 12)
 collision_layer = 256
 collision_mask = 0
 script = ExtResource("17_glkdk")
@@ -811,6 +818,7 @@ position = Vector2(0, 18)
 shape = SubResource("CircleShape2D_37lgq")
 
 [node name="PortalRadius" type="Area2D" parent="."]
+position = Vector2(0, 12)
 collision_layer = 64
 collision_mask = 0
 

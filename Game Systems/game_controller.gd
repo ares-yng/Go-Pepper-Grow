@@ -7,6 +7,7 @@ var isMainMenu = true
 
 var PlayerNode
 var currentSceneNode
+var day = 1
 
 var allSceneData
 var allNPCData
@@ -33,17 +34,25 @@ func _process(delta):
 			setupNewPlayer(currentSceneNode.newPlayerID)
 			currentSceneNode.newPlayerID = null
 		elif currentSceneNode.playerID != null:
+			$CanvasLayer/ScreenCover/AnimationPlayer.play("screenFadeOut")
+			var temp = currentSceneNode.playerID
+			currentSceneNode.playerID = null
+			await $CanvasLayer/ScreenCover/AnimationPlayer.animation_finished
 			var player = load("res://Characters/Player/Player.tscn")
 			PlayerNode = player.instantiate()
-			PlayerNode.playerID = currentSceneNode.playerID
+			PlayerNode.playerID = temp
 			$Pausable.add_child(PlayerNode)
-			loadFile(currentSceneNode.playerID, false)
+			loadFile(temp, false)
 			pauseNode.isPlaying = true
 			isMainMenu = false
 			clockNode.set_visible(true)
+			$CanvasLayer/ScreenCover/AnimationPlayer.queue("screenFadeIn")
 	else:
 		if Input.is_action_just_pressed("testbutton3"):
+			$CanvasLayer/ScreenCover/AnimationPlayer.play("screenFadeOut")
+			await $CanvasLayer/ScreenCover/AnimationPlayer.animation_finished
 			advance()
+			$CanvasLayer/ScreenCover/AnimationPlayer.queue("screenFadeIn")
 		
 		#Monitors player signals
 		#if PlayerNode.isRequestingSave:
@@ -68,12 +77,17 @@ func _process(delta):
 				PlayerNode.isDialogueOpen = true
 			currentSceneNode.NPCWantsToSpeak = null
 		if currentSceneNode.requestingSceneChange:
+			$CanvasLayer/ScreenCover/AnimationPlayer.play("screenFadeOut")
 			if dialogueNode.isDialogueOpen:
 				PlayerNode.isDialogueOpen = false
 				dialogueNode.isDialogueOpen = false
 				dialogueNode.hideAll()
-			currentSceneNode = openScene(currentSceneNode.requestingSceneChange[0], currentSceneNode.requestingSceneChange[1])
-		
+			var temp = currentSceneNode.requestingSceneChange
+			currentSceneNode.requestingSceneChange = null
+			await $CanvasLayer/ScreenCover/AnimationPlayer.animation_finished
+			currentSceneNode = openScene(temp[0], temp[1])
+			$CanvasLayer/ScreenCover/AnimationPlayer.queue("screenFadeIn")
+			
 		#Monitors dialogue signals
 		if dialogueNode.wantsToCloseDialogue:
 			if dialogueNode.newNextDialogueID:
@@ -93,10 +107,14 @@ func _process(delta):
 			else:
 				loadTimer -= delta*1000
 		if pauseNode.loadRequest != null:
-			loadFile(pauseNode.loadRequest)
-			pauseNode.unpause()
-			loadTimer = 50 #small buffer time for player to load in fully. may need adjustments
+			$CanvasLayer/ScreenCover/AnimationPlayer.play("screenFadeOut")
+			var temp = pauseNode.loadRequest
 			pauseNode.loadRequest = null
+			await $CanvasLayer/ScreenCover/AnimationPlayer.animation_finished
+			loadFile(temp)
+			pauseNode.unpause()
+			$CanvasLayer/ScreenCover/AnimationPlayer.queue("screenFadeIn")
+			loadTimer = 50 #small buffer time for player to load in fully. may need adjustments
 
 func advance(): #advances to the next day
 	var delimiter = ";"
@@ -144,7 +162,9 @@ func advance(): #advances to the next day
 	
 	#reload scene
 	currentSceneNode = openScene(currentSceneNode.scene_id, PlayerNode.global_position, false)
-	#todo: set date
+	day += 1
+	$Pausable/CanvasLayer/Clock/Date/Day.text = str(day)
+	$Pausable/CanvasLayer/Clock.setTime("spring")
 
 #Game Managing
 func setupNewPlayer(new_player_id):

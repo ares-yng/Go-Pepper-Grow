@@ -3,6 +3,11 @@ extends Area2D
 var itemData
 
 @onready var sparkleParticles = $Sprite2D/GPUParticles2D
+@onready var animationPlayer = $Sprite2D/AnimationPlayer
+@onready var itemSprite = $Sprite2D
+@onready var flashTimer = $Sprite2D/FlashTimer
+@onready var quantityLabel = $Quantity
+
 
 func pickup():
 	return getData()
@@ -14,25 +19,28 @@ func useItem(quantity):
 func stopDroppedAnimation():
 	unsparkle()
 func playDroppedAnimation():
+	animationPlayer.play("dropped")
 	sparkle()
 func sparkle():
+	sparkleParticles.restart()
 	sparkleParticles.emitting = true
 func unsparkle():
 	sparkleParticles.emitting = false
 func flash():
-	$Sprite2D.material.set("shader_parameter/flashModifier", 1)
-	$Sprite2D/FlashTimer.start()
+	itemSprite.material.set("shader_parameter/flashModifier", 1)
+	flashTimer.start()
 func _on_flash_timer_timeout():
-	$Sprite2D.material.set("shader_parameter/flashModifier", 0)
+	itemSprite.material.set("shader_parameter/flashModifier", 0)
 
 func setQuantity(quantity):
-	var quantityNode = $Quantity
+	quantityLabel = $Quantity
+	
 	itemData["quantity"] = quantity
-	quantityNode.text = str(quantity)
+	quantityLabel.text = str(quantity)
 	if quantity == 1:
-		quantityNode.visible = false
+		quantityLabel.visible = false
 	else:
-		quantityNode.visible = true
+		quantityLabel.visible = true
 func addQuantity(quantity): #returns the number of items not added
 	var total = getQuantity() + quantity
 	if total > getStackMax():
@@ -42,18 +50,19 @@ func addQuantity(quantity): #returns the number of items not added
 		setQuantity(total)
 		return 0
 func getTexture():
-	return $Sprite2D.get_texture()
+	return itemSprite.get_texture()
 
 func getData():
 	var data = {"item_id": getItemID(), "quantity": getQuantity()}
 	return data
 func setVariables(itemID, quantity = 1):
+	itemSprite = $Sprite2D
+	
 	var db = load("res://Game Systems/Resources/database_resource.gd").new()
 	itemData = db.getDictionary("parameters", "item_data", "*", "item_id", itemID)
 	setQuantity(quantity)
-	var spriteNode = $Sprite2D
 	var texture = load(str("res://Game Systems/Items/Item Assets/", getItemFilename(), ".png"))
-	spriteNode.set_texture(texture)
+	itemSprite.set_texture(texture)
 
 func getItemID():
 	return itemData["item_id"]

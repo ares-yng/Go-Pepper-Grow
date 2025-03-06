@@ -146,9 +146,9 @@ func displaySave(fileNum = displayedFile):
 		fileData[player_id] = file
 		
 	if fileData[fileNum]:
-		var year = fileNum + 1
-		var month = 2
-		var day = 15
+		var year = 1
+		var month = 1
+		var day = get_parent().get_parent().get_parent().day
 		
 		var savedTime = fileData[fileNum]["time"]
 		var displayTime = -10000
